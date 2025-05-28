@@ -52,6 +52,8 @@ class StoreAppTests(TestCase):
         self.assertListEqual(response.context['products'], arrivals[:2])
 
     def test_product_detail_valid_and_invalid(self):
+        # Тестуємо сторінку детального перегляду товару
+        # Спочатку з вірним ID - перевіряємо, що сторінка відкривається та правильний шаблон використовується
         # Вірний ID
         prod = PRODUCTS[0]
         response = self.client.get(reverse('product_detail', args=[prod['id']]))
