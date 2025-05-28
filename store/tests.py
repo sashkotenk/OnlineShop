@@ -20,6 +20,9 @@ class StoreAppTests(TestCase):
         self.assertTemplateUsed(response, 'about.html')
 
     def test_all_items_view(self):
+        # Тестуємо сторінку зі всіма товарами
+        # Перевіряємо, що повертається статус 200, правильний шаблон
+        # І що в контексті передається повний список товарів PRODUCTS
         response = self.client.get(reverse('all_items'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'store/index.html')
@@ -27,6 +30,8 @@ class StoreAppTests(TestCase):
         self.assertEqual(len(response.context['products']), len(PRODUCTS))
 
     def test_popular_items_view(self):
+        # Тестуємо сторінку популярних товарів
+        # Популярними вважаються ті, що мають рейтинг 5
         response = self.client.get(reverse('popular_items'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'store/index.html')
@@ -35,6 +40,9 @@ class StoreAppTests(TestCase):
         self.assertEqual(len(response.context['products']), len(popular))
 
     def test_new_arrivals_view(self):
+        # Тестуємо сторінку новинок
+        # Перевіряємо, що виводяться товари, які позначені як нові (is_new == True)
+        # І їх кількість не більше 2
         response = self.client.get(reverse('new_arrivals'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'store/index.html')
