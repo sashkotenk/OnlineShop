@@ -65,6 +65,7 @@ class StoreAppTests(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_add_to_cart_and_cart_view(self):
+        # Тестуємо додавання товару в корзину
         prod_id = PRODUCTS[1]['id']
         # додаємо 3 одиниці
         response = self.client.get(reverse('add_to_cart', args=[prod_id]) + '?qty=3')
