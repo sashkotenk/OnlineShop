@@ -4,14 +4,17 @@ from store.views import PRODUCTS
 
 class StoreAppTests(TestCase):
     def setUp(self):
+        # Налаштовуємо тестового клієнта для імітації HTTP-запитів
         self.client = Client()
 
     def test_home_redirects_to_all_items(self):
+        # Тестуємо, що при зверненні до головної сторінки відбувається редірект на сторінку з усіма товарами
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('all_items'))
 
     def test_about_page(self):
+        # Тестуємо сторінку "Про нас" - перевіряємо код відповіді та використання правильного шаблону
         response = self.client.get(reverse('about'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'about.html')
