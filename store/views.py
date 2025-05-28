@@ -12,15 +12,19 @@ PRODUCTS = [
 ]
 
 def home(request):
+    # Головна сторінка – редірект на сторінку зі всіма товарами
     return redirect("all_items")
 
 def about(request):
+    # Сторінка "Про нас"
     return render(request, "about.html")
 
 def all_items(request):
+    # Показати всі товари
     return render(request, "store/index.html", {"products": PRODUCTS})
 
 def popular_items(request):
+    # Відфільтрувати популярні товари (з рейтингом 5)
     pops = [p for p in PRODUCTS if p["rating"] == 5]
     return render(request, "store/index.html", {"products": pops})
 
@@ -36,6 +40,7 @@ def product_detail(request, pk):
     return render(request, "store/detail.html", {"product": prod})
 
 def add_to_cart(request, pk):
+    # Додати товар до корзини з кількістю qty (за замовчуванням 1)
     qty = int(request.GET.get("qty",1))
     cart = request.session.get("cart", {})
     cart[str(pk)] = cart.get(str(pk),0) + qty
@@ -43,12 +48,14 @@ def add_to_cart(request, pk):
     return redirect("cart")
 
 def remove_from_cart(request, pk):
+    # Видалити товар з корзини
     cart = request.session.get("cart", {})
     cart.pop(str(pk), None)
     request.session["cart"] = cart
     return redirect("cart")
 
 def cart_view(request):
+    # Показати корзину: товари, їх кількість, підсумок та загальну суму
     cart = request.session.get("cart", {})
     items=[]; total=0
     for pid, qty in cart.items():
